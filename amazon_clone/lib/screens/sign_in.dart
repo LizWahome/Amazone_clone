@@ -1,10 +1,12 @@
 import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../utilis/color_theme.dart';
 import '../utilis/constants.dart';
+import '../utilis/utilis.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -16,7 +18,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
   @override
   void dispose() {
     super.dispose();
@@ -79,8 +81,24 @@ class _SignInState extends State<SignIn> {
                           child: CustomButton(
                               color: yellowColor,
                               isLoading: false,
-                              onPressed: () {},
-                              child: const Text("Sign In", style: TextStyle(color: Colors.black),)),
+                              onPressed: () async {
+                                String output =
+                                    await authenticationMethods.signInUser(
+                                        email: emailController.text,
+                                        password: passwordController.text);
+
+                                if (output == "success") {
+                                  //functions
+                                } else {
+                                  // ignore: use_build_context_synchronously
+                                  Utilis().showSnackBar(context, output);
+                                  //log(output);
+                                }
+                              },
+                              child: const Text(
+                                "Sign In",
+                                style: TextStyle(color: Colors.black),
+                              )),
                         )
                       ],
                     ),
@@ -88,20 +106,38 @@ class _SignInState extends State<SignIn> {
                 ),
                 Row(
                   children: [
-                    Expanded(child: Container(height: 1, color: Colors.grey,)),
-                    const Text("New to Amazon?",
-                    style: TextStyle(color: Colors.grey),),
-                    Expanded(child: Container(height: 1, color: Colors.grey,)),
+                    Expanded(
+                        child: Container(
+                      height: 1,
+                      color: Colors.grey,
+                    )),
+                    const Text(
+                      "New to Amazon?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Expanded(
+                        child: Container(
+                      height: 1,
+                      color: Colors.grey,
+                    )),
                   ],
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(
+                  height: 15,
+                ),
                 CustomButton(
                   color: Colors.grey,
                   isLoading: false,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: ((context) => const SignUp())));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => const SignUp())));
                   },
-                  child: const Text("Create Amazon account", style: TextStyle(color: Colors.black),),
+                  child: const Text(
+                    "Create Amazon account",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ],
             ),
@@ -109,5 +145,28 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+}
+
+class AuthenticationMethods {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future<String> signInUser(
+      {required String email, required String password}) async {
+    email.trim();
+    password.trim();
+    String output = "Something went wrong";
+    if (email != "" && password != "") {
+      try {
+        await firebaseAuth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        output = "success";
+      } on FirebaseAuthException catch (e) {
+        output = e.message.toString();
+      }
+      //functions
+    } else {
+      output = "Please fill up everything";
+    }
+    return output;
   }
 }

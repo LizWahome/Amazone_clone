@@ -32,6 +32,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         TextField(
           obscureText: widget.obscureText,
+          controller: widget.controller,
           maxLines: 1,
           decoration: InputDecoration(
             hintText: widget.hintText,

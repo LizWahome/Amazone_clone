@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:amazon_clone/utilis/utilis.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../utilis/color_theme.dart';
@@ -17,6 +22,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
 
   @override
   void dispose() {
@@ -90,13 +96,29 @@ class _SignUpState extends State<SignUp> {
                             obscureText: false,
                             hintText: 'Enter your Address',
                           ),
-                          const SizedBox(height: 7,),
+                          const SizedBox(
+                            height: 7,
+                          ),
                           Align(
                             alignment: Alignment.center,
                             child: CustomButton(
                                 color: yellowColor,
                                 isLoading: false,
-                                onPressed: () {},
+                                onPressed: () async {
+                                  String output =
+                                      await authenticationMethods.signUpUser(
+                                          name: nameController.text,
+                                          address: addressController.text,
+                                          email: emailController.text,
+                                          password: passwordController.text);
+
+                                  if (output == "success") {
+                                    //functions
+                                  } else {
+                                    Utilis().showSnackBar(context, output);
+                                    //log(output);
+                                  }
+                                },
                                 child: const Text(
                                   "Sign Up",
                                   style: TextStyle(color: Colors.black),
@@ -124,5 +146,33 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+}
+
+class AuthenticationMethods {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future<String> signUpUser(
+      {required String name,
+      required String address,
+      required String email,
+      required String password}) async {
+    name.trim();
+    address.trim();
+    email.trim();
+    password.trim();
+    String output = "Something went wrong";
+    if (name != "" && email != "" && address != "" && password != "") {
+      try {
+        await firebaseAuth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        output = "success";
+      } on FirebaseAuthException catch (e) {
+        output = e.message.toString();
+      }
+      //functions
+    } else {
+      output = "Please fill up everything";
+    }
+    return output;
   }
 }
