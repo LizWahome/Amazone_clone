@@ -1,3 +1,4 @@
+import 'package:amazon_clone/layout/screen_layout.dart';
 import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/text_field.dart';
@@ -19,6 +20,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthenticationMethods authenticationMethods = AuthenticationMethods();
+  bool isLoading = false;
   @override
   void dispose() {
     super.dispose();
@@ -80,14 +82,24 @@ class _SignInState extends State<SignIn> {
                           alignment: Alignment.center,
                           child: CustomButton(
                               color: yellowColor,
-                              isLoading: false,
+                              isLoading: isLoading,
                               onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
                                 String output =
                                     await authenticationMethods.signInUser(
                                         email: emailController.text,
                                         password: passwordController.text);
-
+                                setState(() {
+                                  isLoading = false;
+                                });
                                 if (output == "success") {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ScreenLayout()));
                                   //functions
                                 } else {
                                   // ignore: use_build_context_synchronously
