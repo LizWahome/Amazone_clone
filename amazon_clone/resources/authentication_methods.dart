@@ -1,3 +1,5 @@
+import 'package:amazon_clone/model/user_details_model.dart';
+import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationMethods {
@@ -16,9 +18,11 @@ class AuthenticationMethods {
       try {
         await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
+        UserDetailsModel user = UserDetailsModel(name: name, address: address);
+        //await cloudFirestore.uploadNameAndAddressToDatabase(user: user);
         output = "success";
       } catch (e) {
-        output = e.toString(); 
+        output = e.toString();
       }
       //functions
     } else {

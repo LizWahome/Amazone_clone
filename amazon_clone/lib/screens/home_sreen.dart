@@ -1,3 +1,4 @@
+import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utilis/constants.dart';
 import 'package:amazon_clone/widgets/banner_ad.dart';
 import 'package:amazon_clone/widgets/categories.dart';
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: "Explore", children: testChildren),
               ]),
             ),
-            UserDetailBar(offset: offset),
+            UserDetailBar(offset: offset, userDetails: UserDetailsModel(name: 'Wahome', address: 'Nairobi'),),
           ],
         ));
   }

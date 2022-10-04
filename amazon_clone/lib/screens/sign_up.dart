@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/utilis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -122,7 +123,11 @@ class _SignUpState extends State<SignUp> {
                                   });
 
                                   if (output == "success") {
-                                    Navigator.pushReplacement(context, MaterialPageRoute(builder: ((context) => const SignIn())));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) =>
+                                                const SignIn())));
                                     //functions
                                   } else {
                                     Utilis().showSnackBar(context, output);
@@ -176,8 +181,9 @@ class AuthenticationMethods {
       try {
         await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
-        await cloudFirestore.uploadNameAndAddressToDatabase(
-            name: name, address: address);
+        UserDetailsModel user = UserDetailsModel(name: name, address: address);
+        await cloudFirestore.uploadNameAndAddressToDatabase(user: user, address: '', name: '');
+        //name: name, address: address, user: UserDetailsModel(name: name, address: address));
         output = "success";
       } on FirebaseAuthException catch (e) {
         output = e.message.toString();
@@ -194,7 +200,9 @@ class CloudFirestore {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Future uploadNameAndAddressToDatabase(
-      {required String name, required String address}) async {
+      {required String name,
+      required String address,
+      required UserDetailsModel user}) async {
     await firebaseFirestore
         .collection("users")
         .doc(firebaseAuth.currentUser!.uid)
