@@ -1,3 +1,5 @@
+import 'package:amazon_clone/screens/sign_in.dart';
+import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/widgets/account_screen_appbar.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/products_show_case.dart';
@@ -33,7 +35,12 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: CustomButton(
                     color: Colors.orange,
                     isLoading: false,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignIn()));
+                    },
                     child: const Text(
                       "Sign in",
                       style: TextStyle(color: Colors.black),
@@ -45,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     color: Colors.yellow,
                     isLoading: false,
                     onPressed: () {},
-                    child: const Text("Sign in",
+                    child: const Text("Sell",
                         style: TextStyle(color: Colors.black))),
               ),
               ProductShowCaseListView(
@@ -63,23 +70,24 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
               ),
-              Expanded(child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                return ListTile(
-                  title: const Text(
-                    "BackPack Set",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  subtitle: const Text("Address: Around the block"),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.check),
-                    onPressed: () {},
-                  ),
-                );
-              }))
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: const Text(
+                            "BackPack Set",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          subtitle: const Text("Address: Around the block"),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.check),
+                            onPressed: () {},
+                          ),
+                        );
+                      }))
             ]),
           ),
         ));
