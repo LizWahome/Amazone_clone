@@ -45,9 +45,21 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return CartItemWidget(product: ProductModel(url: "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png", productName: "Video games", cost: 574, discount: 0, uid: "hsjszncdjh", sellerName: "Games.com", sellerUid: "ksdjasd", rating: 3, noOfRating: 5000),);
+                  return CartItemWidget(
+                    product: ProductModel(
+                        url:
+                            "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                        productName: "Video games",
+                        cost: 574,
+                        discount: 0,
+                        uid: "hsjszncdjh",
+                        sellerName: "Games.com",
+                        sellerUid: "ksdjasd",
+                        rating: 3,
+                        noOfRating: 5000),
+                  );
                 }),
-          )
+          ),
         ],
       ),
     );

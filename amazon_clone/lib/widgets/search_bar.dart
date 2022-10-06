@@ -1,3 +1,4 @@
+import 'package:amazon_clone/screens/results_screen.dart';
 import 'package:amazon_clone/screens/search_screen.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/utilis/constants.dart';
@@ -47,22 +48,28 @@ class SearchBarWidget extends StatelessWidget with PreferredSizeWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.75,
               child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 8,
-                      spreadRadius: 1,
-                      offset: const Offset(0, 7),
-                    )
-                  ]
-                ),
+                decoration: BoxDecoration(boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    spreadRadius: 1,
+                    offset: const Offset(0, 7),
+                  )
+                ]),
                 child: TextField(
+                  onSubmitted: (String query) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ResultsScreen(query: query)));
+                  },
                   readOnly: isReadOnly,
                   onTap: () {
                     if (isReadOnly) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const SearchSreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SearchSreen()));
                     }
                   },
                   decoration: InputDecoration(

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:amazon_clone/layout/screen_layout.dart';
+import 'package:amazon_clone/screens/results_screen.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
