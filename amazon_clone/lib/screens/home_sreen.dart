@@ -18,20 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController controller = ScrollController();
   double offset = 0;
-  List<Widget> testChildren = [
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-  ];
 
   @override
   void initState() {
@@ -62,9 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               controller: controller,
               child: Column(children: [
-                SizedBox(height: kAppBarHeight/2,),
-                CategoriesHorizontalListViewBar(),
-                BannerAdWidget(),
+                const SizedBox(height: kAppBarHeight/2,),
+                const CategoriesHorizontalListViewBar(),
+                const BannerAdWidget(),
                 ProductShowCaseListView(
                     title: "Upto 70% off", children: testChildren),
                 ProductShowCaseListView(

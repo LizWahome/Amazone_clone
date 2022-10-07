@@ -24,42 +24,48 @@ class _CartScreenState extends State<CartScreen> {
           preferredSize: const Size.fromHeight(kAppBarHeight),
           isReadOnly: true,
           hasBackButton: false),
-      body: Column(
+      body: Stack(
         children: [
-          UserDetailBar(
-            offset: 0,
-            userDetails: UserDetailsModel(name: "", address: ""),
+          Column(
+            children: [
+              const SizedBox(height: kAppBarHeight/2,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomButton(
+                    color: yellowColor,
+                    isLoading: false,
+                    onPressed: () {},
+                    child: const Text(
+                      "Proceed to buy items",
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return CartItemWidget(
+                        product: ProductModel(
+                            url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),
+                      );
+                    }),
+              ),
+            ],
+            
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomButton(
-                color: yellowColor,
-                isLoading: false,
-                onPressed: () {},
-                child: const Text(
-                  "Proceed to buy items",
-                  style: TextStyle(color: Colors.black),
-                )),
-          ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return CartItemWidget(
-                    product: ProductModel(
-                        url:
-                            "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
-                        productName: "Video games",
-                        cost: 574,
-                        discount: 0,
-                        uid: "hsjszncdjh",
-                        sellerName: "Games.com",
-                        sellerUid: "ksdjasd",
-                        rating: 3,
-                        noOfRating: 5000),
-                  );
-                }),
-          ),
+           UserDetailBar(
+                offset: 0,
+                userDetails: UserDetailsModel(name: "", address: ""),
+              ),
         ],
       ),
     );

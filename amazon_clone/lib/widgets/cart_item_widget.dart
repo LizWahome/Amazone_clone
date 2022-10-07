@@ -1,4 +1,5 @@
 import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/screens/product_screen.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/widgets/custom_rounded_button.dart';
 import 'package:amazon_clone/widgets/custom_square_buttom.dart';
@@ -28,24 +29,33 @@ class CartItemWidget extends StatelessWidget {
         children: [
           Expanded(
               flex: 3,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: screenSize.width / 3,
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Center(
-                          child: Image.network(
-                             product.url),
-                        )),
-                  ),
-                   ProductInformationWidget(
-                      productaName:
-                         product.productName,
-                      cost: product.cost,
-                      sellerName: product.sellerName)
-                ],
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) =>
+                   ProductScreen(productmodel: product))));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: screenSize.width / 3,
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Center(
+                            child: Image.network(
+                               product.url),
+                          )),
+                    ),
+                     ProductInformationWidget(
+                        productaName:
+                           product.productName,
+                        cost: product.cost,
+                        sellerName: product.sellerName)
+                  ],
+                ),
               )),
           Expanded(
             flex: 1,

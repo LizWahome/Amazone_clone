@@ -1,3 +1,4 @@
+import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/screens/account_screen.dart';
 import 'package:amazon_clone/screens/cart_screen.dart';
 import 'package:amazon_clone/screens/home_sreen.dart';
@@ -69,16 +70,62 @@ const String amazonLogo =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png";
 
 List<Widget> testChildren = [
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11iTpTDy6TL._SS70_.png"),
-    SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-  ];
+  SimpleProductWidget(productModel:  ProductModel(url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),),
+  SimpleProductWidget(productModel:  ProductModel(url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),),
+  SimpleProductWidget(productModel:  ProductModel(url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),),
+  SimpleProductWidget(productModel:  ProductModel(url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),),
+  SimpleProductWidget(productModel:  ProductModel(url:
+                                "https://cdn.pixabay.com/photo/2016/12/23/07/01/game-1926907_1280.png",
+                            productName: "Video games",
+                            cost: 574,
+                            discount: 0,
+                            uid: "hsjszncdjh",
+                            sellerName: "Games.com",
+                            sellerUid: "ksdjasd",
+                            rating: 3,
+                            noOfRating: 5000),),
+];
+
+List<String> keysOfRating = [
+  "Very bad",
+  "Poor",
+  "Average",
+  "Good",
+  "Excellent",
+];

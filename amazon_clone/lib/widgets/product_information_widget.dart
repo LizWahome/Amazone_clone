@@ -22,7 +22,7 @@ class ProductInformationWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.centerLeft  ,
             child: Text(
               productaName,
               maxLines: 2,

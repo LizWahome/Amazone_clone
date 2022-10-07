@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:amazon_clone/layout/screen_layout.dart';
+import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/screens/product_screen.dart';
 import 'package:amazon_clone/screens/results_screen.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
