@@ -1,3 +1,5 @@
+import 'package:amazon_clone/model/user_details_model.dart';
+import 'package:amazon_clone/provider/user_details_provider.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/widgets/account_screen_appbar.dart';
@@ -6,6 +8,7 @@ import 'package:amazon_clone/widgets/products_show_case.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../utilis/constants.dart';
 
@@ -19,6 +22,8 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
+    UserDetailsModel userDetailsModel =
+        Provider.of<UserDetailsProvider>(context).userDetails;
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,
@@ -131,7 +136,7 @@ class WidgetAccountScreen extends StatelessWidget {
               child: RichText(
                   text: const TextSpan(children: [
                 TextSpan(
-                    text: "Hello",
+                    text: "Hello, ",
                     style: TextStyle(
                       color: Color.fromARGB(255, 34, 34, 34),
                       fontSize: 27,

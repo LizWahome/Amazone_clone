@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: "Explore", children: testChildren),
               ]),
             ),
-            UserDetailBar(offset: offset, userDetails: UserDetailsModel(name: 'Wahome', address: 'Nairobi'),),
+            UserDetailBar(offset: offset),
           ],
         ));
   }
