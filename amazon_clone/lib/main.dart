@@ -1,10 +1,6 @@
-import 'dart:ui';
 
 import 'package:amazon_clone/layout/screen_layout.dart';
-import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/provider/user_details_provider.dart';
-import 'package:amazon_clone/screens/product_screen.dart';
-import 'package:amazon_clone/screens/results_screen.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,9 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_)=> UserDetailsProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => UserDetailsProvider())],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: "Amazon Clone",
@@ -48,6 +42,7 @@ class MyApp extends StatelessWidget {
               } else if (user.hasData) {
                 //FirebaseAuth.instance.signOut();
                 return const ScreenLayout();
+                //return const SellScreen();
               } else {
                 return const SignIn();
               }

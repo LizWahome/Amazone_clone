@@ -1,10 +1,8 @@
-import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utilis/constants.dart';
 import 'package:amazon_clone/widgets/banner_ad.dart';
 import 'package:amazon_clone/widgets/categories.dart';
 import 'package:amazon_clone/widgets/products_show_case.dart';
 import 'package:amazon_clone/widgets/search_bar.dart';
-import 'package:amazon_clone/widgets/simple_product.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,9 @@
-import 'dart:developer';
 
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/utilis.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../utilis/color_theme.dart';

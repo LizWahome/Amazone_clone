@@ -1,5 +1,4 @@
 import 'package:amazon_clone/provider/user_details_provider.dart';
-import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/utilis/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

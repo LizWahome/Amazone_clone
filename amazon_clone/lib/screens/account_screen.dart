@@ -1,12 +1,10 @@
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/provider/user_details_provider.dart';
+import 'package:amazon_clone/screens/sell_screen.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
-import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/widgets/account_screen_appbar.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/products_show_case.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +54,12 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: CustomButton(
                     color: Colors.yellow,
                     isLoading: false,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => const SellScreen())));
+                    },
                     child: const Text("Sell",
                         style: TextStyle(color: Colors.black))),
               ),
@@ -106,6 +109,8 @@ class WidgetAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDetailsModel userDetailsModel =
+        Provider.of<UserDetailsProvider>(context).userDetails;
     return Container(
       height: kAppBarHeight / 2,
       decoration: const BoxDecoration(
@@ -134,16 +139,16 @@ class WidgetAccountScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 7),
               child: RichText(
-                  text: const TextSpan(children: [
-                TextSpan(
+                  text: TextSpan(children: [
+                const TextSpan(
                     text: "Hello, ",
                     style: TextStyle(
                       color: Color.fromARGB(255, 34, 34, 34),
                       fontSize: 27,
                     )),
                 TextSpan(
-                    text: "Wahome",
-                    style: TextStyle(
+                    text: userDetailsModel.name,
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 32, 32, 32),
                       fontSize: 27,
                       fontWeight: FontWeight.bold,

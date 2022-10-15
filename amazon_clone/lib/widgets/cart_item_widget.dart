@@ -4,8 +4,6 @@ import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/widgets/custom_rounded_button.dart';
 import 'package:amazon_clone/widgets/custom_square_buttom.dart';
 import 'package:amazon_clone/widgets/product_information_widget.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 
 class CartItemWidget extends StatelessWidget {

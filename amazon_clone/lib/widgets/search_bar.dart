@@ -1,6 +1,5 @@
 import 'package:amazon_clone/screens/results_screen.dart';
 import 'package:amazon_clone/screens/search_screen.dart';
-import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/utilis/constants.dart';
 import 'package:flutter/material.dart';
 

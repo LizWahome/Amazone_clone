@@ -1,5 +1,4 @@
 import 'package:amazon_clone/model/user_details_model.dart';
-import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationMethods {

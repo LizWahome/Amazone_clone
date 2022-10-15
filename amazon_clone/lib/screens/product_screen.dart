@@ -11,7 +11,6 @@ import 'package:amazon_clone/widgets/search_bar.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../model/user_details_model.dart';
 import '../utilis/constants.dart';
 
 class ProductScreen extends StatefulWidget {

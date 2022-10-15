@@ -1,5 +1,4 @@
 import 'package:amazon_clone/model/product_model.dart';
-import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/widgets/cart_item_widget.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
