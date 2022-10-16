@@ -1,9 +1,15 @@
+import 'package:amazon_clone/layout/screen_layout.dart';
+import 'package:amazon_clone/provider/user_details_provider.dart';
+import 'package:amazon_clone/screens/sign_up.dart';
 import 'package:amazon_clone/utilis/utilis.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/loading_widget.dart';
 import 'package:amazon_clone/widgets/text_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SellScreen extends StatefulWidget {
   const SellScreen({super.key});
@@ -18,6 +24,7 @@ class _SellScreenState extends State<SellScreen> {
   Uint8List? image;
   TextEditingController nameController = TextEditingController();
   TextEditingController costController = TextEditingController();
+  List<int> keysForDiscount = [0, 70, 60, 50];
 
   @override
   void dispose() {
@@ -166,7 +173,27 @@ class _SellScreenState extends State<SellScreen> {
                         CustomButton(
                             color: Colors.orange,
                             isLoading: isLoading,
-                            onPressed: () {},
+                            onPressed: () async {
+                              String output = await uploadDataToDatabase(
+                                  image: image,
+                                  productName: nameController.text,
+                                  rawCost: costController.text,
+                                  discount: keysForDiscount[selected - 1],
+                                  sellerName: Provider.of<UserDetailsProvider>(
+                                          context,
+                                          listen: false)
+                                      .userDetails
+                                      .name,
+                                  sellerUid:
+                                      FirebaseAuth.instance.currentUser!.uid);
+
+                              if (output == "success") {
+                                Utilis()
+                                    .showSnackBar(context, "Posted product");
+                              } else {
+                                Utilis().showSnackBar(context, output);
+                              }
+                            },
                             child: const Text(
                               "Sell",
                               style: TextStyle(color: Colors.black),
@@ -191,3 +218,38 @@ class _SellScreenState extends State<SellScreen> {
     ));
   }
 }
+
+Future<String> uploadDataToDatabase({
+  required Uint8List? image,
+  required String productName,
+  required String rawCost,
+  required int discount,
+  required String sellerName,
+  required String sellerUid,
+}) async {
+  productName.trim();
+  rawCost.trim();
+  String output = "Something went wrong";
+
+  if (image != null && productName != "" && rawCost != "") {
+    try {
+      String url =
+            await uploadImageToDatabase(image: image, uid: "3u89tfwii4039rfji");
+
+      output = "success";
+    } catch (e) {
+      output = e.toString();
+    }
+  } else {
+    output = "Please fill all the required fields";
+  }
+  return output;
+}
+Future<String> uploadImageToDatabase(
+      {required Uint8List image, required String uid}) async {
+    Reference storageRef =
+        FirebaseStorage.instance.ref().child("products").child(uid);
+    UploadTask uploadTask = storageRef.putData(image);
+    TaskSnapshot task = await uploadTask;
+    return task.ref.getDownloadURL();
+  }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 class Utilis {
   showSnackBar(BuildContext context, String content) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.blue,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
@@ -16,5 +18,9 @@ class Utilis {
     ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
     return file!.readAsBytes();
+  }
+
+  String getUid() {
+    return (100000 + Random().nextInt(10000)).toString();
   }
 }
