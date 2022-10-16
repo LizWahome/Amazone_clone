@@ -15,6 +15,7 @@ class UserDetailsProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+//
 
 class CloudFirestore {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
