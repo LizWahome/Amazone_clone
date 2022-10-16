@@ -1,4 +1,3 @@
-
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/screens/sign_in.dart';
 import 'package:amazon_clone/utilis/utilis.dart';
@@ -6,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../layout/screen_layout.dart';
 import '../utilis/color_theme.dart';
 import '../utilis/constants.dart';
 import '../widgets/custom_button.dart';
@@ -180,8 +180,7 @@ class AuthenticationMethods {
         await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
         UserDetailsModel user = UserDetailsModel(name: name, address: address);
-        await cloudFirestore.uploadNameAndAddressToDatabase(user: user, address: '', name: '');
-        //name: name, address: address, user: UserDetailsModel(name: name, address: address));
+        await cloudFirestore.uploadNameAndAddressToDatabase(user: user);
         output = "success";
       } on FirebaseAuthException catch (e) {
         output = e.message.toString();
@@ -191,19 +190,5 @@ class AuthenticationMethods {
       output = "Please fill up everything";
     }
     return output;
-  }
-}
-
-class CloudFirestore {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  Future uploadNameAndAddressToDatabase(
-      {required String name,
-      required String address,
-      required UserDetailsModel user}) async {
-    await firebaseFirestore
-        .collection("users")
-        .doc(firebaseAuth.currentUser!.uid)
-        .set({"name": name, "address": address});
   }
 }

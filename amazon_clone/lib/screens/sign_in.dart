@@ -169,13 +169,12 @@ class AuthenticationMethods {
     String output = "Something went wrong";
     if (email != "" && password != "") {
       try {
-        await firebaseAuth.createUserWithEmailAndPassword(
+        await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
         output = "success";
       } on FirebaseAuthException catch (e) {
         output = e.message.toString();
       }
-      //functions
     } else {
       output = "Please fill up everything";
     }

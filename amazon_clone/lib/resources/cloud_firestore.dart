@@ -1,9 +1,11 @@
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utilis/utilis.dart';
+import 'package:amazon_clone/widgets/simple_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class CloudFirestore {
@@ -77,5 +79,21 @@ class CloudFirestore {
     UploadTask uploadTask = storageRef.putData(image);
     TaskSnapshot task = await uploadTask;
     return task.ref.getDownloadURL();
+  }
+
+  Future<List<Widget>> getProductsFromDiscount(int discount) async {
+    List<Widget> children = [];
+    QuerySnapshot<Map<String, dynamic>> snap = await firebaseFirestore
+        .collection("products")
+        .where("discount", isEqualTo: discount)
+        .get();
+
+    for (int i = 0; i < snap.docs.length; i++) {
+      DocumentSnapshot docSnap = snap.docs[i];
+      ProductModel model =
+          ProductModel.getModelFromJson(json: (docSnap.data() as dynamic));
+      children.add(SimpleProductWidget(productModel: model));
+    }
+    return children;
   }
 }
