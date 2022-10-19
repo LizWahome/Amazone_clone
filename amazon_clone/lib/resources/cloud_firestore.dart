@@ -106,6 +106,7 @@ class CloudFirestore {
         .doc(productUid)
         .collection("reviews")
         .add(model.getJson());
+    await changeAverageRating(productUid: productUid, reviewModel: model);
   }
 
   Future addProductToCart({required ProductModel productModel}) async {
@@ -162,5 +163,19 @@ class CloudFirestore {
         .doc(model.sellerUid)
         .collection("ordersRequests")
         .add(orderRequestModel.getJson());
+  }
+
+  Future changeAverageRating(
+      {required String productUid, required ReviewModel reviewModel}) async {
+    DocumentSnapshot snapshot =
+        await firebaseFirestore.collection("products").doc(productUid).get();
+    ProductModel model =
+        ProductModel.getModelFromJson(json: (snapshot.data() as dynamic));
+    int currentRating = model.rating;
+    int newRating = (currentRating + reviewModel.rating) ~/ 2;
+    await firebaseFirestore
+        .collection("products")
+        .doc(productUid)
+        .update({"rating": newRating});
   }
 }

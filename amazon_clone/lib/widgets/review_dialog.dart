@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
+import '../model/product_model.dart';
 import '../model/review_model.dart';
 
 class ReviewDialog extends StatelessWidget {
@@ -53,5 +54,19 @@ class CloudFirestore {
         .doc(productUid)
         .collection("reviews")
         .add(model.getJson());
+        await changeAverageRating(productUid: productUid, reviewModel: model);
+  }
+   Future changeAverageRating(
+      {required String productUid, required ReviewModel reviewModel}) async {
+    DocumentSnapshot snapshot =
+        await firebaseFirestore.collection("products").doc(productUid).get();
+    ProductModel model =
+        ProductModel.getModelFromJson(json: (snapshot.data() as dynamic));
+    int currentRating = model.rating;
+    int newRating = (currentRating + reviewModel.rating) ~/ 2;
+    await firebaseFirestore
+        .collection("products")
+        .doc(productUid)
+        .update({"rating": newRating});
   }
 }
