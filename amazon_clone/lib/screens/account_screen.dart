@@ -25,8 +25,6 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
-    UserDetailsModel userDetailsModel =
-        Provider.of<UserDetailsProvider>(context).userDetails;
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,

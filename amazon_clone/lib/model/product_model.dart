@@ -1,4 +1,3 @@
-import 'package:amazon_clone/model/review_model.dart';
 
 class ProductModel {
   final String url;

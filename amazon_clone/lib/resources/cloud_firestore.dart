@@ -27,7 +27,7 @@ class CloudFirestore {
         .doc(firebaseAuth.currentUser!.uid)
         .get();
     UserDetailsModel userModel =
-        UserDetailsModel.getModelFromJson((snapshot.data() as dynamic));
+        UserDetailsModel.getModelFromJson(json: (snapshot.data() as dynamic));
     return userModel;
   }
 

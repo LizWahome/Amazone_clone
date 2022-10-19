@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:amazon_clone/provider/user_details_provider.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
 import 'package:amazon_clone/utilis/constants.dart';
@@ -108,7 +106,8 @@ class CloudFirestore {
         .collection("users")
         .doc(firebaseAuth.currentUser!.uid)
         .get();
-    UserDetailsModel userModel = UserDetailsModel.getModelFromJson((snapshot.data() as dynamic));
+    UserDetailsModel userModel =
+        UserDetailsModel.getModelFromJson(json: (snapshot.data() as dynamic));
     return userModel;
   }
 }
