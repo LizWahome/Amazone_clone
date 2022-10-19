@@ -1,9 +1,12 @@
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/screens/product_screen.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
+import 'package:amazon_clone/utilis/utilis.dart';
 import 'package:amazon_clone/widgets/custom_rounded_button.dart';
 import 'package:amazon_clone/widgets/custom_square_buttom.dart';
 import 'package:amazon_clone/widgets/product_information_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -28,12 +31,12 @@ class CartItemWidget extends StatelessWidget {
           Expanded(
               flex: 3,
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: ((context) =>
-                   ProductScreen(productmodel: product))));
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              ProductScreen(productmodel: product))));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -43,13 +46,11 @@ class CartItemWidget extends StatelessWidget {
                       child: Align(
                           alignment: Alignment.topCenter,
                           child: Center(
-                            child: Image.network(
-                               product.url),
+                            child: Image.network(product.url),
                           )),
                     ),
-                     ProductInformationWidget(
-                        productaName:
-                           product.productName,
+                    ProductInformationWidget(
+                        productaName: product.productName,
                         cost: product.cost,
                         sellerName: product.sellerName)
                   ],
@@ -74,7 +75,19 @@ class CartItemWidget extends StatelessWidget {
                       style: TextStyle(color: activeCyanColor),
                     )),
                 CustomSquareButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await CloudFirestore().addProductToCart(
+                        productModel: ProductModel(
+                            url: product.url,
+                            productName: product.productName,
+                            cost: product.cost,
+                            discount: product.discount,
+                            uid: Utilis().getUid(),
+                            sellerName: product.sellerName,
+                            sellerUid: product.sellerUid,
+                            rating: product.rating,
+                            noOfRating: product.noOfRating));
+                  },
                   color: backgroundColor,
                   dimension: 40,
                   child: const Icon(Icons.add),
@@ -92,7 +105,11 @@ class CartItemWidget extends StatelessWidget {
                     Row(
                       children: [
                         CustomSimpleRoundedButton(
-                            onPressed: () {}, text: "Delete"),
+                            onPressed: () {
+                              CloudFirestore()
+                                  .deleteProductFromCart(uid: product.uid);
+                            },
+                            text: "Delete"),
                         const SizedBox(width: 5),
                         CustomSimpleRoundedButton(
                             onPressed: () {}, text: "Save for later"),
@@ -113,5 +130,27 @@ class CartItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class CloudFirestore {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future addProductToCart({required ProductModel productModel}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(productModel.uid)
+        .set(productModel.getJson());
+  }
+
+  Future deleteProductFromCart({required String uid}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(uid)
+        .delete();
   }
 }

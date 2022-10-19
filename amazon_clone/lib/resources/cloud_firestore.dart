@@ -1,3 +1,4 @@
+import 'package:amazon_clone/model/order_request_model.dart';
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/model/review_model.dart';
 import 'package:amazon_clone/model/user_details_model.dart';
@@ -105,5 +106,61 @@ class CloudFirestore {
         .doc(productUid)
         .collection("reviews")
         .add(model.getJson());
+  }
+
+  Future addProductToCart({required ProductModel productModel}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(productModel.uid)
+        .set(productModel.getJson());
+  }
+
+  Future deleteProductFromCart({required String uid}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(uid)
+        .delete();
+  }
+
+  Future buyAllItemsInCart({required UserDetailsModel userDetails}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .get();
+
+    for (int i = 0; i < snapshot.docs.length; i++) {
+      ProductModel model =
+          ProductModel.getModelFromJson(json: snapshot.docs[i].data());
+      addProductToOrders(model: model, userDetails: userDetails);
+      await deleteProductFromCart(uid: model.uid);
+    }
+  }
+
+  Future addProductToOrders(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("orders")
+        .add(model.getJson());
+    await sendOrderRequest(model: model, userDetails: userDetails);
+  }
+
+  Future sendOrderRequest(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    OrderRequestModel orderRequestModel = OrderRequestModel(
+        orderName: model.productName, buyersAddress: userDetails.address);
+    await firebaseFirestore
+        .collection("users")
+        .doc(model.sellerUid)
+        .collection("ordersRequests")
+        .add(orderRequestModel.getJson());
   }
 }

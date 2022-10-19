@@ -1,6 +1,7 @@
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/model/review_model.dart';
 import 'package:amazon_clone/utilis/color_theme.dart';
+import 'package:amazon_clone/utilis/utilis.dart';
 import 'package:amazon_clone/widgets/cost_widget.dart';
 import 'package:amazon_clone/widgets/custom_button.dart';
 import 'package:amazon_clone/widgets/custom_rounded_button.dart';
@@ -10,8 +11,13 @@ import 'package:amazon_clone/widgets/review_widget.dart';
 import 'package:amazon_clone/widgets/search_bar.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../model/order_request_model.dart';
+import '../model/user_details_model.dart';
+import '../provider/user_details_provider.dart';
 import '../utilis/constants.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -92,13 +98,21 @@ class _ProductScreenState extends State<ProductScreen> {
                           CustomButton(
                               color: Colors.orange,
                               isLoading: false,
-                              onPressed: () {},
+                              onPressed: () async {
+                                await CloudFirestore().addProductToOrders(
+                                    model: widget.productmodel, userDetails: Provider.of<UserDetailsProvider>(context, listen: false).userDetails);
+                                Utilis().showSnackBar(context, "Done");
+                              },
                               child: const Text("Buy Now",
                                   style: TextStyle(color: Colors.black))),
                           CustomButton(
                               color: yellowColor,
                               isLoading: false,
-                              onPressed: () {},
+                              onPressed: () async {
+                                await CloudFirestore().addProductToCart(
+                                    productModel: widget.productmodel);
+                                Utilis().showSnackBar(context, "Added to cart");
+                              },
                               child: const Text("Add to cart",
                                   style: TextStyle(color: Colors.black))),
                           somespace,
@@ -106,7 +120,8 @@ class _ProductScreenState extends State<ProductScreen> {
                               onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) => ReviewDialog(productUid: widget.productmodel.uid));
+                                    builder: (context) => ReviewDialog(
+                                        productUid: widget.productmodel.uid));
                               },
                               text: "Add a review for this product"),
                         ],
@@ -151,5 +166,41 @@ class _ProductScreenState extends State<ProductScreen> {
         ],
       ),
     ));
+  }
+}
+
+class CloudFirestore {
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Future addProductToCart({required ProductModel productModel}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(productModel.uid)
+        .set(productModel.getJson());
+  }
+
+  Future addProductToOrders(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("orders")
+        .add(model.getJson());
+    await sendOrderRequest(model: model, userDetails: userDetails);
+  }
+
+  Future sendOrderRequest(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    OrderRequestModel orderRequestModel = OrderRequestModel(
+        orderName: model.productName, buyersAddress: userDetails.address);
+    await firebaseFirestore
+        .collection("users")
+        .doc(model.sellerUid)
+        .collection("ordersRequests")
+        .add(orderRequestModel.getJson());
   }
 }
